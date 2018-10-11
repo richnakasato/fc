@@ -18,4 +18,4 @@ class SinglyLinkedList:
             prev = curr
             curr = temp
         curr.next = prev
-        self.head = curr
+        self.setHead(curr)
