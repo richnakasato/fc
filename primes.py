@@ -7,8 +7,9 @@ def primes(n):
         for i in range(2, n+1):
             is_prime = True
             for j in primes_list:
-                if j and i%j == 0 and i!=j:
+                if not i%j:
                     is_prime = False
+                    break
                 if j > sqrt:
                     break
             if is_prime:
@@ -17,7 +18,7 @@ def primes(n):
 
 
 def main():
-    n = 1000
+    n = 20
     primes(n)
 
 if __name__ == "__main__":
