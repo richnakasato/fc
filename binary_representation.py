@@ -2,16 +2,13 @@ import random
 
 # returns string - binary representation of number
 def dec_to_bin(number):
-    outstring = ''
+    if number < 2:
+        return str(number)
+    bits = ''
     while number:
-        rem = number//2
-        bit = number%2
-        if bit == 0:
-            outstring = '0' + outstring
-        else:
-            outstring = '1' + outstring
-        number = rem
-    return '0' if outstring == '' else outstring
+        bits = str(number%2) + bits
+        number//=2
+    return bits
 
 def dec_to_bin_recurse(number):
     if number == 0:
