@@ -1,6 +1,6 @@
 import random
 
-# omg kandane! -> definitely did NOT figure this one out!
+# omg kadane! -> definitely did NOT figure this one out!
 def largestContinuousSum(arr):
     curr_max = glob_max = arr[0]
     for i in range(1, len(arr)):
