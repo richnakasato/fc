@@ -23,15 +23,17 @@ def arrange_in_pairs(head):
         if len(stack) < 3:
             return
         else:
-            count = 0
+            count = 1
             last = 1
-            curr = head
+            curr = head.next
             while curr:
                 if count%2:
-                    curr.data = last
-                else:
                     last = curr.data
                     curr.data = stack.pop()
+                else:
+                    temp = curr.data
+                    curr.data = last
+                    last = temp
                 count+=1
                 curr = curr.next
             return
