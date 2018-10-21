@@ -38,8 +38,6 @@ def arrange_in_pairs_bf(head):
             stack.append(curr.data)
         count+=1
         curr = curr.next
-    print(queue)
-    print(stack)
     count = 0
     curr = head
     while curr:
@@ -49,6 +47,31 @@ def arrange_in_pairs_bf(head):
             curr.data = stack.pop()
         count+=1
         curr = curr.next
+
+def arrange_in_pairs_fs(head):
+    if not head or not head.next:
+        return
+    stack = list()
+    queue = deque()
+    fast = head
+    slow = head
+    while fast and fast.next and fast.next.next:
+        queue.append(slow.data)
+        slow = slow.next
+        fast = fast.next.next
+    queue.append(slow.data)
+    while slow:
+        stack.append(slow.data)
+        slow = slow.next
+    slow = head
+    count = 0
+    while slow:
+        if not count%2:
+            slow.data = queue.popleft()
+        else:
+            slow.data = stack.pop()
+        count+=1
+        slow = slow.next
 
 
 def main():
@@ -61,9 +84,10 @@ def main():
     n1.next = n2
     n2.next = n3
     n3.next = n4
-    #n4.next = n5
+    n4.next = n5
     print_list(head)
-    arrange_in_pairs_bf(head)
+    #arrange_in_pairs_bf(head)
+    arrange_in_pairs_fs(head)
     print_list(head)
 
 
