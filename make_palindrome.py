@@ -17,3 +17,26 @@ def make_palindrome(input):
         while len(stack):
             input += stack.pop()
         return input
+
+def make_palindrome2(input):
+    r_input = ''.join(reversed(input))
+    if input == r_input:
+        return input
+    overlap_delta = 0
+    while input[overlap_delta:] != r_input[:-overlap_delta]:
+        overlap_delta += 1
+    return input + r_input[len(input)-overlap_delta:]
+
+def main():
+    arr = "racecar"
+    forward1 = make_palindrome(arr)
+    forward2 = make_palindrome2(arr)
+    reverse = ''.join(reversed(forward2))
+    print(forward1)
+    print(forward2)
+    print(reverse)
+    assert forward2==reverse
+
+if __name__ == "__main__":
+    main()
+
