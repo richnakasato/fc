@@ -10,6 +10,7 @@ class Range():
         else:
             return "{}".format(self.start)
 
+
 def find_partitions(input_list):
     if len(input_list):
         out_ranges = list()
@@ -22,6 +23,26 @@ def find_partitions(input_list):
                 temp = Range(input_list[i], input_list[i])
         out_ranges.append(str(temp))
         return out_ranges
+
+
+def make_node(lower, upper):
+    if lower == upper:
+        return str(lower)
+    else:
+        return '-'.join([str(lower), str(upper)])
+
+def find_partitions2(input_list):
+    lower = expected = input_list[0]
+    out = list()
+    for num in input_list[1:]:
+        if num != expected + 1:
+            out.append(make_node(lower, expected))
+            lower = expected = num
+        else:
+            expected = num
+    out.append(make_node(lower, expected))
+    return out
+
 
 def main():
     pass
