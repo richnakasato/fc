@@ -29,26 +29,24 @@ class Tree():
         result = 0
         if self.root:
             parents = self.parent_helper()
-            A_parents = set()
+            a_parents, a_curr = set(), A
+            b_parents, b_curr = set(), B
             done = False
-            parent = A.data
             while not done:
-                parent = parents[parent]
-                if not parent:
+                if not a_curr and not b_curr:
+                    done = True
+                elif a_curr in b_parents or b_curr in a_parents:
+                    print(a_parents)
+                    print(b_parents)
+                    result = len(a_parents) + len(b_parents)
                     done = True
                 else:
-                    result+=1
-                    A_parents.add(parent)
-            done = False
-            parent = B.data
-            while not done:
-                parent = parents[parent]
-                if not parent:
-                    done = True
-                else:
-                    result+=1
-                    if parent in A_parents:
-                        done = True
+                    a_curr = parents[a_curr]
+                    b_curr = parents[b_curr]
+                    if a_curr:
+                        a_parents.add(a_curr)
+                    if b_curr:
+                        b_parents.add(b_curr)
         return result
 
 
@@ -63,7 +61,7 @@ def main():
     two.right = four
     three.right = five
     bt = Tree(one)
-    print(bt.distance(two, five))
+    print(bt.distance(two.data, five.data))
 
 
 if __name__ == "__main__":
