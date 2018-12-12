@@ -43,7 +43,7 @@ class Tree():
                     if node_data2:
                         node2_to_root.add(node_data2)
                         node_data2 = parents[node_data2]
-            distance = len(node1_to_root.symmetric_difference(node2_to_root))
+            distance = len(node1_to_root ^ node2_to_root)
         return distance
 
 
