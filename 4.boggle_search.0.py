@@ -1,8 +1,8 @@
 def can_move(board, unseen, cur_pos):
     r,c = cur_pos
     max_r,max_c = len(board), len(board[0])
-    if 0 <= r < max_r and 0 <= c < max_c and unseen[r][c]:
-        return True
+    if 0 <= r < max_r and 0 <= c < max_c:
+        return unseen[r][c]
     else:
         return False
 
@@ -30,12 +30,11 @@ def helper(board, unseen, cur_pos, remainder, results):
 
 def solution(board, word):
     results = list()
-    rows = range(len(board))
-    cols = range(len(baord[0]))
-    for row in rows:
-        for col in cols:
+    max_r,max_c = len(board), len(board[0])
+    for row in range(max_r):
+        for col in range(max_r):
             if board[row][col] == word[0]:
-                unseen = [[True for c in cols] for r in rows]
+                unseen = [[True for c in range(max_r)] for r in range(max_c)]
                 start = (row,col)
                 helper(board, unseen, start, word, results)
     return any(results)
