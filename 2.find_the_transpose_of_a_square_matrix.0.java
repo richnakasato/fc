@@ -2,6 +2,7 @@
 // You don't need any other imports.
 
 public static void transposeMatrix(int[][] matrix) {
+    if (matrix.length < 2) return;
     int count = matrix.length;
     for (int i=0; i<count; i++) {
         for (int j=i+1; j<count; j++) {
@@ -10,4 +11,5 @@ public static void transposeMatrix(int[][] matrix) {
             matrix[j][i] = temp;
         }
     }
+    return;
 }
