@@ -1,0 +1,27 @@
+// java.util.* and java.util.streams.* have been imported for this problem.
+// You don't need any other imports.
+public static void helper(int leftCount, int rightCount, StringBuilder curr, ArrayList<String> results) {
+    if (leftCount == 0 && rightCount == 0) {
+        results.add(curr.toString());
+    } else {
+        if (leftCount == rightCount) {
+            helper(leftCount - 1, rightCount, curr.append("("), results);
+            curr.setLength(curr.length() - 1);
+        } else if (leftCount < rightCount) {
+            if (leftCount > 0) {
+                helper(leftCount - 1, rightCount, curr.append("("), results);
+                curr.setLength(curr.length() - 1); 
+            }
+            helper(leftCount, rightCount - 1, curr.append(")"), results);
+            curr.setLength(curr.length() - 1);
+        }
+    }
+}
+
+public static ArrayList<String> combParenthesis(int pairs) {
+    ArrayList<String> results = new ArrayList<>();
+    if (pairs > 0) {
+        helper(pairs, pairs, new StringBuilder(), results);        
+    }
+    return results;
+}
