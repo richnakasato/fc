@@ -1,0 +1,29 @@
+// java.util.* and java.util.streams.* have been imported for this problem.
+// You don't need any other imports.
+
+public static void helper(StringBuilder remainder, StringBuilder curr, HashSet<String> resultSet)
+{
+    if (remainder.length() == 0) {
+        if (curr.length() != 0) resultSet.add(curr.toString());
+    } else {
+        for (int i=0; i<remainder.length(); i++) {
+            Character c = remainder.charAt(i);
+            StringBuilder newRemainder = new StringBuilder();
+            newRemainder.append(remainder.substring(0, i) + remainder.substring(i+1,remainder.length()));
+            curr.append(c);
+            helper(newRemainder, curr, resultSet);
+            curr.setLength(curr.length() - 1);
+            helper(newRemainder, curr, resultSet);
+        }
+    }
+}
+
+public static ArrayList<String> getCombPerms(String s) {
+    if (s == null) return null;
+    if (s.length() < 2) return new ArrayList<String>(Arrays.asList(s));
+    HashSet<String> resultSet = new HashSet<>();
+    StringBuilder sb = new StringBuilder(s);
+    StringBuilder curr = new StringBuilder();
+    helper(sb, curr, resultSet);
+    return new ArrayList<String>(resultSet);
+}
