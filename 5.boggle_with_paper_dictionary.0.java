@@ -60,24 +60,20 @@ public void helper(char[][] board,
                       int col,
                       StringBuilder curr,
                       Trie dict,
-                      ArrayList<String> results) {
-    String word = curr.toString();
-    if (dict.searchWord(word)) {
-        results.add(word);
-    }
+                      HashSet<String> results) {
+    if (0 > row || row >= board.length || 0 > col || col >= board[0].length) return;
+    if (used[row][col]) return;
     if (!dict.searchPrefix(curr.toString())) return;
-    if (0 <= row && row < board.length && 0 <= col && col < board[0].length) {
-        if (used[row][col]) return;
-        used[row][col] = true;
-        char c = board[row][col];
-        curr.append(c);
-        helper(board, used, row - 1, col, curr, dict, results);
-        helper(board, used, row + 1, col, curr, dict, results);
-        helper(board, used, row, col - 1, curr, dict, results);
-        helper(board, used, row, col + 1, curr, dict, results);
-        curr.setLength(curr.length() - 1);
-        used[row][col] = false;
-    }
+    used[row][col] = true;
+    char c = board[row][col];
+    curr.append(c);
+    if (dict.searchWord(curr.toString())) results.add(curr.toString());
+    helper(board, used, row - 1, col, curr, dict, results);
+    helper(board, used, row + 1, col, curr, dict, results);
+    helper(board, used, row, col - 1, curr, dict, results);
+    helper(board, used, row, col + 1, curr, dict, results);
+    curr.setLength(curr.length() - 1);
+    used[row][col] = false;
     return;
 }
 
@@ -89,12 +85,13 @@ public ArrayList<String> boggleByot(char[][] board, ArrayList<String> dictionary
         dict.insertWord(word);
     }
     boolean[][] used = new boolean[board.length][board[0].length];
-    ArrayList<String> results = new ArrayList<>();
+    HashSet<String> results = new HashSet<>();
     for (int r=0; r<board.length; r++) {
         for (int c=0; c<board[0].length; c++) {
             helper(board, used, r, c, new StringBuilder(), dict, results);
         }
     }
-    Collections.sort(results);
-    return results;
+    ArrayList<String> sortedResults = new ArrayList<>(results);
+    Collections.sort(sortedResults);
+    return sortedResults;
 }
