@@ -4,7 +4,7 @@
 // Click 'Hide' to hide me.
 
 /**
- * For Reference Only. Construct your
+ * For Reference Only. Construct your 
  * own TrieNode and Trie!
  */
 
@@ -54,26 +54,31 @@ class Trie {
     };
 }
 
-public boolean helper(char[][] board,
-                      boolean[][] used,
+public void helper(char[][] board, 
+                      boolean[][] used, 
                       int row,
                       int col,
                       StringBuilder curr,
-                      Trie dict) {
-    if (dict.searchWord(curr.toString())) return true;
-    if (!dict.searchPrefix(curr.toString())) return false;
-    if (0 > row || row > board.length || 0 > col || col > board[0].length) return false;
-    if (used[row][col]) return false;
-    used[row][col] = true;
-    char c = board[row][col];
-    curr.append(c);
-    if (helper(board, used, row - 1, col, curr, dict)) return true;
-    if (helper(board, used, row + 1, col, curr, dict)) return true;
-    if (helper(board, used, row, col - 1, curr, dict)) return true;
-    if (helper(board, used, row, col + 1, curr, dict)) return true;
-    curr.setLength(curr.length() - 1);
-    used[row][col] = false;
-    return false;
+                      Trie dict,
+                      ArrayList<String> results) {
+    String word = curr.toString();
+    if (dict.searchWord(word)) {
+        results.add(word);
+    }
+    if (!dict.searchPrefix(curr.toString())) return;
+    if (0 <= row && row < board.length && 0 <= col && col < board[0].length) {
+        if (used[row][col]) return;
+        used[row][col] = true;
+        char c = board[row][col];
+        curr.append(c);
+        helper(board, used, row - 1, col, curr, dict, results);
+        helper(board, used, row + 1, col, curr, dict, results);
+        helper(board, used, row, col - 1, curr, dict, results);
+        helper(board, used, row, col + 1, curr, dict, results);
+        curr.setLength(curr.length() - 1);
+        used[row][col] = false;
+    }
+    return;
 }
 
 public ArrayList<String> boggleByot(char[][] board, ArrayList<String> dictionary) {
@@ -81,17 +86,15 @@ public ArrayList<String> boggleByot(char[][] board, ArrayList<String> dictionary
     // backtrack across all elements of board looking for words
     Trie dict = new Trie();
     for (String word : dictionary) {
-        dict.searchWord(word);
+        dict.insertWord(word);
     }
     boolean[][] used = new boolean[board.length][board[0].length];
-    ArrayList<String> result = new ArrayList<>();
+    ArrayList<String> results = new ArrayList<>();
     for (int r=0; r<board.length; r++) {
         for (int c=0; c<board[0].length; c++) {
-            for (String word : dictionary) {
-                if (helper(board, used, r, c, new StringBuilder(), dict)) result.add(word);
-            }
+            helper(board, used, r, c, new StringBuilder(), dict, results);
         }
     }
-    Collections.sort(result);
-    return result;
+    Collections.sort(results);
+    return results;
 }
